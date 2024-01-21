@@ -1,0 +1,8 @@
+origin,destination,type,price,duration
+Boston,Providence,train,100,10
+Boston,Durham,plane,3,50
+Boston,Washington,train,1,80
+Durham,Providence,bus,6,70
+Durham,Chicago,train,2,90
+Chicago,Providence,bus,1,20
+Washington,Chicago,train,5,31

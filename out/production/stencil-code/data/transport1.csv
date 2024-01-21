@@ -1,0 +1,8 @@
+origin,destination,type,price,duration
+Boston,Providence,train,13,80
+Boston,Providence,bus,7,150
+Providence,Boston,train,13,80
+Providence,Boston,bus,7,150
+Boston,NewYorkCity,plane,267,50
+NewYorkCity,Boston,plane,267,50
+NewYorkCity,Providence,bus,40,225
