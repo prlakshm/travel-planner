@@ -38,7 +38,6 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
         LinkedList<E> path = new LinkedList<>();
         V current = end;
         while (current != start) {
-            System.out.println(current);
             E edge = cameFrom.get(current);
             if (edge == null) {
                 // Handle the case where the edge is null (no path found)
@@ -59,24 +58,32 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
      * */
     @Override
     public List<E> getPath(IGraph<V, E> graph, V start, V end) {
-        LinkedList<E> toCheck = new LinkedList<E>(start.getOutgoing());
-        while (!toCheck.isEmpty()) {
-            E checkingEdge = toCheck.remove();
-            V target = checkingEdge.getTarget();
-            if (!this.cameFrom.containsKey(target)) {
-                this.cameFrom.put(target, checkingEdge);
-            }
-            if (end.equals(target)) {
-                return this.backtrack(this.cameFrom, start, end);
-            }
-            this.visited.add(checkingEdge);
-            for (E e : graph.getOutgoingEdges(target)) {
-                if (!this.visited.contains(e)) {
-                    toCheck.addLast(e);
+        try {
+            LinkedList<E> toCheck = new LinkedList<E>(start.getOutgoing());
+            while (!toCheck.isEmpty()) {
+                E checkingEdge = toCheck.remove();
+                V target = checkingEdge.getTarget();
+                if (!this.cameFrom.containsKey(target)) {
+                    this.cameFrom.put(target, checkingEdge);
                 }
+                if (end.equals(target)) {
+                    return this.backtrack(this.cameFrom, start, end);
+                }
+                this.visited.add(checkingEdge);
+                for (E e : graph.getOutgoingEdges(target)) {
+                    if (!this.visited.contains(e)) {
+                        toCheck.addLast(e);
+                    }
+                }
+                // Sleep thread to avoid busy waiting
+                Thread.sleep(1);
             }
-            System.out.println("cameFrom: " + this.cameFrom);
+            return new LinkedList<E>();
+        } catch (InterruptedException e) {
+            // Re-interrupt the current thread
+            Thread.currentThread().interrupt();
+            System.out.println("InterruptedException occurred in getPath method" + e);
+            return new LinkedList<E>();
         }
-        return new LinkedList<E>();
     }
 }
