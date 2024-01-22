@@ -6,8 +6,12 @@ import sol.TravelController;
 import sol.TravelGraph;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -26,15 +30,27 @@ public class Visualizer<V extends IVertex<E>, E extends ITransport & IEdge<V>> {
      * @param pathName Output file path
      */
     public void generateDOTString(IGraph<V, E> graph, String pathName) {
-        try (BufferedWriter outputFile = new BufferedWriter(new FileWriter(pathName))) {
-            outputFile.write("digraph TravelPlanner {\n");
-            outputFile.write("\tnode [shape=\"plaintext\" style=\"filled, rounded\" fontname=\"Lato\" margin=0.2]\n");
-            outputFile.write("\tedge [fontname=\"Lato\" labeldistance=5]\n");
+        try {
+            // Create directories if they don't exist
+            Path outputPath = Paths.get(pathName);
+            Files.createDirectories(outputPath.getParent());
+
+            // Create the file (overwrite if it exists)
+            Files.deleteIfExists(outputPath); // Delete the file if it exists
+            Files.createFile(outputPath);
+
+            // Use FileWriter with append mode
+            BufferedWriter outputFileWriter = new BufferedWriter(new FileWriter(outputPath.toFile(), true));
+
+
+            outputFileWriter.write("digraph TravelPlanner {\n");
+            outputFileWriter.write("\tnode [shape=\"plaintext\" style=\"filled, rounded\" fontname=\"Lato\" margin=0.2]\n");
+            outputFileWriter.write("\tedge [fontname=\"Lato\" labeldistance=5]\n");
 
             Set<V> unvisited = graph.getVertices();
 
             for (V vertex : unvisited) {
-                outputFile.write("\t\"" + vertex + "\"\n");
+                outputFileWriter.write("\t\"" + vertex + "\"\n");
             }
 
             Stack<V> toExplore = new Stack<V>();
@@ -51,7 +67,7 @@ public class Visualizer<V extends IVertex<E>, E extends ITransport & IEdge<V>> {
 
                         String edgeLabel = String.format("Type: %s\\nPrice: $%.2f\\nTime: %.2f minutes\n", outgoingEdge.getType(), outgoingEdge.getPrice(), outgoingEdge.getMinutes());
 
-                        outputFile.write("\t\"" + currentVertex + "\" -> \"" + neighbor + "\" [label=\"" + edgeLabel + "\"]\n");
+                        outputFileWriter.write("\t\"" + currentVertex + "\" -> \"" + neighbor + "\" [label=\"" + edgeLabel + "\"]\n");
 
                         if (unvisited.contains(neighbor)) {
                             toExplore.push(neighbor);
@@ -61,8 +77,9 @@ public class Visualizer<V extends IVertex<E>, E extends ITransport & IEdge<V>> {
                 }
             }
 
-            outputFile.write("}");
-            outputFile.flush();
+            outputFileWriter.write("}");
+            outputFileWriter.flush();
+            outputFileWriter.close(); // Make sure to close the writer
         } catch (IOException e) {
             System.out.println("Oh no! Got an error while trying to generate your dot string.\n" + e.getMessage());
         }
@@ -73,8 +90,9 @@ public class Visualizer<V extends IVertex<E>, E extends ITransport & IEdge<V>> {
      * @param args Unused
      */
     public static void main(String[] args) {
-        String citiesFilepath = "data/cities2.csv";
-        String transportFilepath = "data/transport2.csv";
+        //Change the csv file paths below if you want to see the graph of another file set
+        String citiesFilepath = "cities4.csv";
+        String transportFilepath = "transport4.csv";
         String outputFilepath = "data/graphs/graph2.dot";
 
         TravelController controller = new TravelController();

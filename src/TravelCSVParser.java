@@ -36,7 +36,7 @@ public class TravelCSVParser {
      */
     public static void parseLocations(String locationFile, Function<Map<String, String>, Void> handleLoc)
         throws IOException {
-        CSVParser parser = new CSVParser(new FileReader(locationFile), FORMAT);
+        CSVParser parser = new CSVParser(new FileReader("data/" + locationFile), FORMAT);
 
         // Applies the handleLoc function to each Map (represents one row) created by the parser
         for (CSVRecord record : parser) {
@@ -59,7 +59,7 @@ public class TravelCSVParser {
     public void parseTransportation(String transportationFile,
                                     Function<Map<String, String>, Void> handleTransport)
         throws IOException {
-        CSVParser parser = new CSVParser(new FileReader(transportationFile), FORMAT);
+        CSVParser parser = new CSVParser(new FileReader( "data/" + transportationFile), FORMAT);
 
         // Applies the handleTransport function to each Map (represents one row) created by the parser
         for (CSVRecord record : parser) {

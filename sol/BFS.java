@@ -4,6 +4,8 @@ import src.IBFS;
 import src.IEdge;
 import src.IGraph;
 import src.IVertex;
+
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -36,7 +38,12 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
         LinkedList<E> path = new LinkedList<>();
         V current = end;
         while (current != start) {
+            System.out.println(current);
             E edge = cameFrom.get(current);
+            if (edge == null) {
+                // Handle the case where the edge is null (no path found)
+                break;
+            }
             path.addFirst(edge);
             current = edge.getSource();
         }
@@ -68,6 +75,7 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
                     toCheck.addLast(e);
                 }
             }
+            System.out.println("cameFrom: " + this.cameFrom);
         }
         return new LinkedList<E>();
     }

@@ -1,0 +1,23 @@
+digraph TravelPlanner {
+	node [shape="plaintext" style="filled, rounded" fontname="Lato" margin=0.2]
+	edge [fontname="Lato" labeldistance=5]
+	"Boston"
+	"Washington"
+	"Providence"
+	"Chicago"
+	"Durham"
+	"Boston" -> "Washington" [label="Type: train\nPrice: $1.00\nTime: 80.00 minutes
+"]
+	"Boston" -> "Providence" [label="Type: train\nPrice: $100.00\nTime: 10.00 minutes
+"]
+	"Boston" -> "Durham" [label="Type: plane\nPrice: $3.00\nTime: 50.00 minutes
+"]
+	"Durham" -> "Chicago" [label="Type: train\nPrice: $2.00\nTime: 90.00 minutes
+"]
+	"Durham" -> "Providence" [label="Type: bus\nPrice: $6.00\nTime: 70.00 minutes
+"]
+	"Chicago" -> "Providence" [label="Type: bus\nPrice: $1.00\nTime: 20.00 minutes
+"]
+	"Washington" -> "Chicago" [label="Type: train\nPrice: $5.00\nTime: 31.00 minutes
+"]
+}
