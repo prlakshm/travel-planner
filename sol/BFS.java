@@ -75,7 +75,7 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
                         toCheck.addLast(e);
                     }
                 }
-                // Sleep thread to avoid busy waiting
+                // Sleep thread to avoid busy waiting toCheck queue
                 Thread.sleep(1);
             }
             return new LinkedList<E>();
