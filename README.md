@@ -45,9 +45,23 @@ The graph will be written as a dotfile. To view this file, the DOT Language plug
 plugin allows you to view the file contents and the graph preview side-by-side. Graphviz must also be installed on the 
 computer. If a user prefers another method of to view dotfiles, that is okay as well. 
 
+## File Structure:
+
+**"Sol" directory:** Contains classes that set up data structures and implement algorithms.
+
+**"Src" directory:** Contains all interfaces. Also includes classes that provide with user interaction.
+
+**"Test" directory:** Contains all test suites.
+
+
 ## Tests:
 
-In the "test" directory, 
+In the "test" directory, BFSTest.java tests the BFS algorithm. DijkstraTest.java tests the Dijkstra algorithm.
+GraphTest.java tests that when edges and vertices are added to a graph, that the graph is connected properly. All tests
+All suites are tested on SimpleGraphs, which are created using SimpleVertex and SimpleEdge objects. These classes 
+are simple implementations of the IGraph, IVertex, and IEdge interfaces. These classes allow us to test our program and 
+see that our methods manipulate and operate on the data structures correctly. 
+
 
 ## Errors and Bugs: 
 
